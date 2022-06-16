@@ -2,7 +2,7 @@ import React from 'react'
 import {Routes,Route} from 'react-router-dom'
 import IdeaBox from '../IdeaBoxApp/IdeaBox/IdeaBox'
 import ReadingList from '../ReadingListApp/ReadingList/ReadingList'
-import CryptoPrices from '../CrytoPricesApp/CryptoPrices/CrpytoPrices'
+import CryptoPrices from '../CryptoPricesApp/CryptoPrices/CryptoPrices'
 import './App.css'
 
 
