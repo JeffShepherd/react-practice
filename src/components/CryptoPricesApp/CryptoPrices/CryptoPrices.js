@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PriceList from '../PriceList/PriceList'
+import CryptoForm from '../CryptoForm/CryptoForm'
 import { getCryptoData } from '../../../api.js'
 import {reduceUnnecessaryData} from '../../../utilities.js'
 import './CryptoPrices.css'
@@ -41,6 +42,7 @@ class CryptoPrices extends Component {
       focusCoins={this.state.focusCoins}
       removeFocusCoin={this.removeFocusCoin}
       />
+      <CryptoForm />
     </div>
 
     )
