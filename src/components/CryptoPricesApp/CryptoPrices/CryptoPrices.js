@@ -40,6 +40,14 @@ class CryptoPrices extends Component {
     this.setState({focusCoins: [...this.state.focusCoins, symbol]})
   }
 
+  addErrorState = (message) => {
+    this.setState({error: message})
+  }
+
+  removeErrorState = () => {
+    this.setState({error: ''})
+  }
+
   render() {
     return (
 
@@ -53,7 +61,10 @@ class CryptoPrices extends Component {
       <CryptoForm 
       checkIfCoinDataExists={this.checkIfCoinDataExists}
       addFocusCoin={this.addFocusCoin}
+      addErrorState={this.addErrorState}
+      removeErrorState={this.removeErrorState}
       />
+      {this.state.error && <p className='error-message'>{this.state.error}</p>}
     </div>
 
     )

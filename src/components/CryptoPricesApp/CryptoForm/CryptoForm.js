@@ -23,8 +23,9 @@ class CryptoForm extends Component {
     const upcaseSymbol = this.state.symbol.toUpperCase()
     if(this.props.checkIfCoinDataExists(upcaseSymbol)) {
       this.props.addFocusCoin(upcaseSymbol)
+      this.props.removeErrorState()
     } else {
-      console.log('error')
+      this.props.addErrorState('No data available for this coin')
     }
     this.clearInput()
   }
