@@ -29,7 +29,15 @@ class CryptoPrices extends Component {
 
   removeFocusCoin = (symbol) => {
     const updatedFocusCoins = this.state.focusCoins.filter(coin => coin !== symbol)
-    this.setState({data:this.state.data, focusCoins: updatedFocusCoins})
+    this.setState({focusCoins: updatedFocusCoins})
+  }
+
+  checkIfCoinDataExists = (symbol) => {
+    return this.state.data.find(x => x.symbol === symbol) ? true : false
+  }
+
+  addFocusCoin = (symbol) => {
+    this.setState({focusCoins: [...this.state.focusCoins, symbol]})
   }
 
   render() {
@@ -42,7 +50,10 @@ class CryptoPrices extends Component {
       focusCoins={this.state.focusCoins}
       removeFocusCoin={this.removeFocusCoin}
       />
-      <CryptoForm />
+      <CryptoForm 
+      checkIfCoinDataExists={this.checkIfCoinDataExists}
+      addFocusCoin={this.addFocusCoin}
+      />
     </div>
 
     )

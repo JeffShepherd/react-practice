@@ -5,7 +5,7 @@ const PriceCard = ({symbol,askingPrice,high,low,prevClosePrice,removeFocusCoin})
 
   return (
       <div className='card'>
-        <h3>{symbol.replace('USDT','')}</h3>
+        <h3>{symbol}</h3>
         <p>Prev close: ${prevClosePrice}</p>
         <p>Today's high: ${high}</p>
         <p>Today's low: ${low}</p>
