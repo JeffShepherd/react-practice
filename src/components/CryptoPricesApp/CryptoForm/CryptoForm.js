@@ -1,49 +1,41 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import './CryptoForm.css'
 
-class CryptoForm extends Component {
-  constructor({props}) {
-    super()
+const CryptoForm = (props) => {
+  const [symbol, setSymbol] = useState('')
 
-    this.state = {
-      symbol: ''
-    }
+  const handleChange = event => {
+    setSymbol(event.target.value)
   }
 
-  handleChange = event => {
-    this.setState({symbol: event.target.value})
+  const clearInput = () => {
+    setSymbol('')
   }
 
-  clearInput = () => {
-    this.setState({symbol:''})
-  }
-
-  submitCoin = event => {
+  const submitCoin = event => {
     event.preventDefault()
-    const upcaseSymbol = this.state.symbol.toUpperCase()
-    if(this.props.checkIfCoinDataExists(upcaseSymbol)) {
-      this.props.addFocusCoin(upcaseSymbol)
-      this.props.removeErrorState()
+    const upcaseSymbol = symbol.toUpperCase()
+    if(props.checkIfCoinDataExists(upcaseSymbol)) {
+      props.addFocusCoin(upcaseSymbol)
+      props.removeErrorState()
     } else {
-      this.props.addErrorState('No data available for this coin')
+      props.addErrorState('No data available for this coin')
     }
-    this.clearInput()
+    clearInput()
   }
 
-  render() {
     return(
       <form>
         <input 
         type='text'
         placeholder='Add Symbol to Dashboard'
-        value={this.state.symbol}
+        value={symbol}
         name='symbol'
-        onChange={event => this.handleChange(event)}
+        onChange={event => handleChange(event)}
         />
-        <button onClick={(event) => this.submitCoin(event)}>Submit</button>
+        <button onClick={(event) => submitCoin(event)}>Submit</button>
       </form>
     )
-  }
 }
 
 export default CryptoForm
