@@ -1,54 +1,49 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import './Form.css'
 
-class Form extends Component {
-  constructor({props}) {
-    super()
+const Form = (props) => {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
 
-    this.state = {
-      title:'',
-      description:''
+  const handleChange = event => {
+    if(event.target.name === 'title') {
+      setTitle(event.target.value)
+    } else if(event.target.name === 'description') {
+      setDescription(event.target.value)
     }
   }
 
-  handleChange = event => {
-    this.setState({[event.target.name]: event.target.value})
-  }
-
-  submitIdea = event => {
+  const submitIdea = event => {
     event.preventDefault()
-    const newIdea = {id: Date.now(), ...this.state}
-    this.props.addIdea(newIdea)
-    this.clearInputs()
+    const newIdea = {id: Date.now(), title: title, description: description}
+    props.addIdea(newIdea)
+    clearInputs()
   }
 
-  clearInputs = () => {
-    this.setState({title: '',description: ''})
+  const clearInputs = () => {
+    setTitle('')
+    setDescription('')
   }
 
-  render() {
     return(
       <form>
         <input type='text'
         placeholder='Title'
         name='title'
-        value={this.state.title}
-        onChange={event => this.handleChange(event)}
+        value={title}
+        onChange={event => handleChange(event)}
         />
-
         <input type='text'
           placeholder='Description'
           name= 'description'
-          value={this.state.description}
-          onChange={event => this.handleChange(event)}
+          value={description}
+          onChange={event => handleChange(event)}
         />
-
         <button 
-        onClick={event => this.submitIdea(event)}
+        onClick={event => submitIdea(event)}
         >SUBMIT</button>
       </form>
     )
-  }
 }
 
 export default Form
