@@ -1,75 +1,64 @@
-import React, {Component} from 'react'
+import React, {useState, useEffect} from 'react'
 import PriceList from '../PriceList/PriceList'
 import CryptoForm from '../CryptoForm/CryptoForm'
 import { getCryptoData } from '../../../api.js'
 import {reduceUnnecessaryData} from '../../../utilities.js'
 import './CryptoPrices.css'
 
-class CryptoPrices extends Component {
-  constructor() {
-    super()
+const CryptoPrices = () => {
+  const [data, setData] = useState([])
+  const [focusCoins, setFocusCoins] = useState(['ETHUSDT','BTCUSDT','DOGEUSDT'])
+  const [error, setError] = useState('')
 
-    this.state = {
-      data: [],
-      focusCoins: ['ETHUSDT','BTCUSDT','DOGEUSDT'],
-      error: ''
-    }
-  }
-
-  componentDidMount() {
-    this.loadData()
-  }
-
-  loadData = () => {
+  const loadData = () => {
     getCryptoData()
     .then(data => reduceUnnecessaryData(data))
-      .then(data => this.setState({data: data}))
-      .catch(error => this.setState({error: 'An error has occured. Please try again later.'}))
+      .then(data => setData(data))
+      .catch(error => setError('An error has occured. Please try again later.'))
   }
 
-  removeFocusCoin = (symbol) => {
-    const updatedFocusCoins = this.state.focusCoins.filter(coin => coin !== symbol)
-    this.setState({focusCoins: updatedFocusCoins})
+  useEffect(() => {
+    loadData()
+  }, [])
+ 
+  const removeFocusCoin = (symbol) => {
+    const updatedFocusCoins = focusCoins.filter(coin => coin !== symbol)
+    setFocusCoins(updatedFocusCoins)
   }
 
-  checkIfCoinDataExists = (symbol) => {
-    return this.state.data.find(x => x.symbol === symbol) ? true : false
+  const checkIfCoinDataExists = (symbol) => {
+    return data.find(x => x.symbol === symbol) ? true : false
   }
 
-  addFocusCoin = (symbol) => {
-    this.setState({focusCoins: [...this.state.focusCoins, symbol]})
+  const addFocusCoin = (symbol) => {
+    setFocusCoins([...focusCoins, symbol])
   }
 
-  addErrorState = (message) => {
-    this.setState({error: message})
+  const addErrorState = (message) => {
+    setError(message)
   }
 
-  removeErrorState = () => {
-    this.setState({error: ''})
+  const removeErrorState = () => {
+    setError('')
   }
 
-  render() {
-    return (
-
+  return (
     <div>
       <h2>Crypto Prices</h2>
       <PriceList 
-      data={this.state.data} 
-      focusCoins={this.state.focusCoins}
-      removeFocusCoin={this.removeFocusCoin}
+      data={data} 
+      focusCoins={focusCoins}
+      removeFocusCoin={removeFocusCoin}
       />
       <CryptoForm 
-      checkIfCoinDataExists={this.checkIfCoinDataExists}
-      addFocusCoin={this.addFocusCoin}
-      addErrorState={this.addErrorState}
-      removeErrorState={this.removeErrorState}
+      checkIfCoinDataExists={checkIfCoinDataExists}
+      addFocusCoin={addFocusCoin}
+      addErrorState={addErrorState}
+      removeErrorState={removeErrorState}
       />
-      {this.state.error && <p className='error-message'>{this.state.error}</p>}
+      {error && <p className='error-message'>{error}</p>}
     </div>
-
-    )
-  }
+  )
 }
-
 
 export default CryptoPrices

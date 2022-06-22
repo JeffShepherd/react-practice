@@ -1,46 +1,41 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import './BookForm.css'
 
-class BookForm extends Component {
-  constructor({props}) {
-    super()
-    this.state = {
-      title: '',
-      genre: ''
+const BookForm = (props) => {
+  const [title, setTitle] = useState('')
+  const [genre, setGenre] = useState('')
+
+  const handleChange = event => {
+    if(event.target.name === 'title') {
+      setTitle(event.target.value)
+    } else if(event.target.name === 'sort') {
+      setGenre(event.target.value)
     }
   }
 
-  handleInputChange = event => {
-    this.setState({[event.target.name]: event.target.value})
-  }
-
-  handleDropdownChange = event => {
-    this.setState({genre: event.target.value})
-  }
-
-  submitBook = event => {
+  const submitBook = event => {
     event.preventDefault()
-    this.props.addBook({id:Date.now(),...this.state})
-    this.resetInputs()
+    props.addBook({id:Date.now(),title: title, genre: genre})
+    resetInputs()
   }
 
-  resetInputs= () => {
-    this.setState({title:'',genre:''})
+  const resetInputs= () => {
+    setTitle('')
+    setGenre('')
   }
 
-  render() {
     return(
       <form>
         <input
         type='text'
         placeholder='Title'
         name='title'
-        value={this.state.title}
-        onChange={event => this.handleInputChange(event)}
+        value={title}
+        onChange={event => handleChange(event)}
         />
         <label htmlFor="sortFormInput">Genre </label>
-        <select value={this.state.genre} 
-        onChange={event => this.handleDropdownChange(event)} 
+        <select value={genre} 
+        onChange={event => handleChange(event)} 
         id="sortFormInput" 
         name="sort"
         >
@@ -50,12 +45,10 @@ class BookForm extends Component {
           <option value="Educational">Educational</option>
         </select>
         <button
-        onClick={(event)=>this.submitBook(event)}
+        onClick={(event) => submitBook(event)}
         >Submit</button>
       </form>
     )
-  }
-
 }
 
 export default BookForm
